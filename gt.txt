@@ -1,0 +1,4 @@
+git remote set-url origin https://github.com/username/repo.git
+
+If the URL starts with git@github.com:username/repo.git → SSH ✅
+If it starts with https://github.com/username/repo.git → HTTPS (then no SSH key needed)
