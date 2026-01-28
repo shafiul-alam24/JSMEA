@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interactive FAQ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .faq-item {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      cursor: pointer;
+      padding: 15px 20px;
+      transition: background-color 0.3s ease;
+    }
+    .faq-item.dimmed {
+      opacity: 0.5;
+    }
+    .faq-question {
+      font-weight: bold;
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-answer {
+      margin-top: 10px;
+      display: none;
+      color: #555;
+      line-height: 1.4;
+    }
+    .faq-item.active {
+      background-color: #d0e6ff;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Frequently Asked Questions</h1>
+
+  <div class="faq-item">
+    <p class="faq-question">What is the DOM? <span>+</span></p>
+    <p class="faq-answer">The DOM is the Document Object Model, a programming interface for web documents.</p>
+  </div>
+
+  <div class="faq-item">
+    <p class="faq-question">What is JavaScript? <span>+</span></p>
+    <p class="faq-answer">JavaScript is a programming language used to make web pages interactive.</p>
+  </div>
+
+  <div class="faq-item">
+    <p class="faq-question">What is Event Handling? <span>+</span></p>
+    <p class="faq-answer">Event handling means responding to user actions like clicks or keypresses.</p>
+  </div>
+
+  <script>
+    // Select all FAQ items
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+
+      question.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+
+        // First, reset all items
+        faqItems.forEach(otherItem => {
+          otherItem.classList.remove('active', 'dimmed');
+          otherItem.querySelector('.faq-answer').style.display = 'none';
+          otherItem.querySelector('.faq-question span').textContent = '+';
+        });
+
+        if (!isActive) {
+          // Activate clicked item
+          item.classList.add('active');
+          item.querySelector('.faq-answer').style.display = 'block';
+          item.querySelector('.faq-question span').textContent = '−';
+
+          // Dim all other items
+          faqItems.forEach(otherItem => {
+            if (otherItem !== item) {
+              otherItem.classList.add('dimmed');
+            }
+          });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

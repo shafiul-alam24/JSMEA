@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Expense Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    select, button {
+      padding: 8px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: white;
+      margin-bottom: 8px;
+      padding: 12px 15px;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+    }
+    .category {
+      font-weight: bold;
+      color: #007bff;
+    }
+    .amount {
+      color: #28a745;
+      font-weight: bold;
+    }
+    #total {
+      font-size: 20px;
+      margin-top: 20px;
+      text-align: right;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Expense Tracker</h1>
+
+  <label for="categoryFilter">Filter by Category:</label>
+  <select id="categoryFilter">
+    <option value="all">All</option>
+    <option value="Food">Food</option>
+    <option value="Transport">Transport</option>
+    <option value="Shopping">Shopping</option>
+    <option value="Utilities">Utilities</option>
+  </select>
+
+  <ul id="expenseList"></ul>
+
+  <div id="total">Total: $0</div>
+
+  <script>
+    // Sample expense data
+    const expenses = [
+      { id: 1, title: "Lunch at Cafe", category: "Food", amount: 12.5 },
+      { id: 2, title: "Bus ticket", category: "Transport", amount: 2.75 },
+      { id: 3, title: "New T-shirt", category: "Shopping", amount: 20.0 },
+      { id: 4, title: "Electricity bill", category: "Utilities", amount: 35.4 },
+      { id: 5, title: "Dinner", category: "Food", amount: 18.0 },
+      { id: 6, title: "Taxi", category: "Transport", amount: 10.0 },
+    ];
+
+    const expenseList = document.getElementById('expenseList');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const totalDiv = document.getElementById('total');
+
+    // Function to render expenses
+    function renderExpenses(filterCategory) {
+      // Filter expenses
+      const filteredExpenses = filterCategory === 'all' ? expenses : expenses.filter(exp => exp.category === filterCategory);
+
+      // Clear existing list
+      expenseList.innerHTML = '';
+
+      // Use map to create list items
+      filteredExpenses.map(exp => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <span>${exp.title} <span class="category">[${exp.category}]</span></span>
+          <span class="amount">$${exp.amount.toFixed(2)}</span>
+        `;
+        expenseList.appendChild(li);
+      });
+
+      // Use reduce to calculate total amount
+      const totalAmount = filteredExpenses.reduce((acc, curr) => acc + curr.amount, 0);
+      totalDiv.textContent = `Total: $${totalAmount.toFixed(2)}`;
+    }
+
+    // Initial render with all expenses
+    renderExpenses('all');
+
+    // Event listener for filter change
+    categoryFilter.addEventListener('change', (e) => {
+      renderExpenses(e.target.value);
+    });
+  </script>
+
+</body>
+</html>
